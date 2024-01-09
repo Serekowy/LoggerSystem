@@ -1,7 +1,7 @@
 public class UserType {
-    private String userType;
+//    private String userType;
 
     UserType(String userType) {
-        this.userType = userType;
+//        this.userType = userType;
     }
 }
