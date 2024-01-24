@@ -1,7 +1,7 @@
-public class UserType {
+public class AccessType {
 //    private String userType;
 
-    UserType(String userType) {
+    AccessType(String userType) {
 //        this.userType = userType;
     }
 }
