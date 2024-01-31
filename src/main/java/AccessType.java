@@ -1,7 +1,4 @@
-public class AccessType {
-//    private String userType;
+public enum AccessType {
+        BASIC, ADMIN, OWNER;
 
-    AccessType(String userType) {
-//        this.userType = userType;
-    }
 }

@@ -1,7 +1,6 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class LoggerSystem {
-    public static void main(String[] args) {
-
-
-    }
-
+    User basic = new User("Test", AccessType.BASIC);
 }
