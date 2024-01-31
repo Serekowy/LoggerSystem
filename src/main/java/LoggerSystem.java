@@ -1,6 +1,30 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoggerSystem {
-    User basic = new User("Test", AccessType.BASIC);
+
+    private List<String> allLogs;
+    private List<String> deletedLogs;
+
+    public LoggerSystem() {
+        this.allLogs = new ArrayList<>();
+        this.deletedLogs = new ArrayList<>();
+    }
+
+    public void addLogToList(String data) {
+        allLogs.add(data);
+    }
+
+    public void removeLogFromList(String data) {
+        deletedLogs.add(data);
+        allLogs.remove(data);
+    }
+
+    public List<String> getLogs() {
+        return allLogs;
+    }
+
+    public List<String> getDeletedLogs() {
+        return deletedLogs;
+    }
 }

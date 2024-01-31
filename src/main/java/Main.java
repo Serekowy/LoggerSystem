@@ -7,9 +7,22 @@ public class Main {
         User basic = new User("Test", AccessType.BASIC);
         Log log1 = new Log(getActualTime(), basic.getUsername(), "utworzono użytkownika", "text");
         Log log2 = new Log(getActualTime(), basic.getUsername(), "utworzono log", "text");
+
         LoggerSystem loggerSystem = new LoggerSystem();
+        loggerSystem.addLogToList(logToData(log1));
 
 //        loggerSystem.basic.getUsername();
+
+        System.out.println(loggerSystem.getLogs());
+
+        loggerSystem.removeLogFromList(logToData(log1));
+
+        System.out.println(loggerSystem.getLogs());
+
+        System.out.println("Lista z usuniętymi:");
+        System.out.println(loggerSystem.getDeletedLogs());
+
+        loggerSystem.
 
     }
     public static String getActualTime() {
@@ -17,4 +30,8 @@ public class Main {
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
+    public static String logToData(Log log) {
+        return log.getTimestamp() + " " + log.getCreator() + " " + log.getLogText() + " | " + log.getLogType();
+    }
+    //zrobić funkcję robiącą jednego stringa data, gdzie będzie log w jednym ciagu
 }
