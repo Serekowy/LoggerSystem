@@ -22,7 +22,6 @@ public class Main {
         System.out.println("Lista z usuniętymi:");
         System.out.println(loggerSystem.getDeletedLogs());
 
-        loggerSystem.
 
     }
     public static String getActualTime() {
@@ -33,5 +32,4 @@ public class Main {
     public static String logToData(Log log) {
         return log.getTimestamp() + " " + log.getCreator() + " " + log.getLogText() + " | " + log.getLogType();
     }
-    //zrobić funkcję robiącą jednego stringa data, gdzie będzie log w jednym ciagu
 }
