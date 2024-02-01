@@ -1,30 +1,29 @@
 import java.util.ArrayList;
-import java.util.List;
 
-public class LoggerSystem {
+public class LoggerSystem  {
 
-    private List<String> allLogs;
-    private List<String> deletedLogs;
+    private ArrayList<Log> allLogs;
+    private ArrayList<Log> deletedLogs;
 
     public LoggerSystem() {
         this.allLogs = new ArrayList<>();
         this.deletedLogs = new ArrayList<>();
     }
 
-    public void addLogToList(String data) {
-        allLogs.add(data);
+    public void create(Log log) {
+        allLogs.add(log);
     }
 
-    public void removeLogFromList(String data) {
-        deletedLogs.add(data);
-        allLogs.remove(data);
+    public void remove(Log log) {
+        deletedLogs.add(log);
+        allLogs.remove(log);
     }
 
-    public List<String> getLogs() {
+    public ArrayList<Log> getLogs() {
         return allLogs;
     }
 
-    public List<String> getDeletedLogs() {
+    public ArrayList<Log> getDeletedLogs() {
         return deletedLogs;
     }
 }

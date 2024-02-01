@@ -4,11 +4,11 @@ public class LogHandler {
     private String logText;
     private String logType;
 
-    public LogHandler(String timestamp, String creator, String logText, String logType) {
-        this.timestamp = timestamp;
+    public LogHandler(String creator) {
+        this.timestamp = "now";
         this.creator = creator;
-        this.logText = logText;
-        this.logType = logType;
+        this.logText = "przykładowy tekst";
+        this.logType = "text";
     }
 
     public String getTimestamp() {
@@ -25,5 +25,18 @@ public class LogHandler {
 
     public String getLogType() {
         return logType;
+    }
+
+    public void setTimestamp(String newTimestamp) {
+        this.timestamp = newTimestamp;
+    }
+    public void setCreator(String  newCreator) {
+        this.creator = newCreator;
+    }
+    public void setLogText(String newLogText) {
+        this.logText =  newLogText;
+    }
+    public void setLogType(String newLogType) {
+        this.logType = newLogType;
     }
 }

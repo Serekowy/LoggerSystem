@@ -4,18 +4,18 @@ import java.time.format.DateTimeFormatter;
 public class Main {
     public static void main(String[] args) {
 
-        User basic = new User("Test", AccessType.BASIC);
-        Log log1 = new Log(getActualTime(), basic.getUsername(), "utworzono użytkownika", "text");
-        Log log2 = new Log(getActualTime(), basic.getUsername(), "utworzono log", "text");
+        User basic = new User("Basic", AccessType.BASIC);
+        User admin = new User("Admin", AccessType.ADMIN);
+        User owner = new User("Owner", AccessType.OWNER);
+
+        Log log1 = new Log("basic");
 
         LoggerSystem loggerSystem = new LoggerSystem();
-        loggerSystem.addLogToList(logToData(log1));
+        loggerSystem.create(new Log("ziom")); //dodanie nowego loga
 
-//        loggerSystem.basic.getUsername();
+        System.out.println(loggerSystem.getLogs().get(0).getCreator());
 
-        System.out.println(loggerSystem.getLogs());
-
-        loggerSystem.removeLogFromList(logToData(log1));
+        loggerSystem.remove(log1);
 
         System.out.println(loggerSystem.getLogs());
 
@@ -29,7 +29,5 @@ public class Main {
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
-    public static String logToData(Log log) {
-        return log.getTimestamp() + " " + log.getCreator() + " " + log.getLogText() + " | " + log.getLogType();
-    }
+
 }

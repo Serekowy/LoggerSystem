@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Log extends LogHandler {
 
-    public Log(String timestamp, String creator, String logText, String logType) {
-        super(timestamp, creator, logText, logType);
+    public Log(String creator) {
+        super(creator);
     }
 
     public void showLog() {
