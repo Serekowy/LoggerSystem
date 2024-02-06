@@ -8,14 +8,17 @@ public class Main {
         User admin = new User("Admin", AccessType.ADMIN);
         User owner = new User("Owner", AccessType.OWNER);
 
-        Log log1 = new Log("basic");
+        LogSystem log1 = new LogSystem("basic");
+
 
         LoggerSystem loggerSystem = new LoggerSystem();
-        loggerSystem.create(new Log("ziom")); //dodanie nowego loga
+        loggerSystem.createLog(new LogSystem("ziom")); //dodanie nowego loga
+
+        UserManager user1 = loggerSystem.addUser("Basic", AccessType.BASIC);
 
         System.out.println(loggerSystem.getLogs().get(0).getCreator());
 
-        loggerSystem.remove(log1);
+        loggerSystem.removeLog(log1);
 
         System.out.println(loggerSystem.getLogs());
 
