@@ -4,26 +4,23 @@ public class LoggerSystem  {
 
     private ArrayList<LogSystem> allLogs;
     private ArrayList<LogSystem> deletedLogs;
-
-    UserManager user;
+    private ArrayList<User> users;
 
     public LoggerSystem() {
         this.allLogs = new ArrayList<>();
         this.deletedLogs = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
-    public void createLog(LogSystem log) {
+    public void createLog(String username) {
+        LogSystem log = new LogSystem(username);
         allLogs.add(log);
     }
 
-    public void removeLog(LogSystem log) {
-        deletedLogs.add(log);
-        allLogs.remove(log);
-    }
-    public UserManager addUser(String username, AccessType access) {
-        UserManager user = new UserManager(username, access);
-        user.addUser(user);
-        return user;
+    public boolean removeLog(ArrayList<LogSystem> logs, int index) {
+        deletedLogs.add(logs.get(index));
+        allLogs.remove(logs.get(index));
+        return true;
     }
 
     public ArrayList<LogSystem> getLogs() {
@@ -32,5 +29,14 @@ public class LoggerSystem  {
 
     public ArrayList<LogSystem> getDeletedLogs() {
         return deletedLogs;
+    }
+
+    public void addUser(String username, AccessType access) {
+        User user = new User(username, access);
+        users.add(user);
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
     }
 }
