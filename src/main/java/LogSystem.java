@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class LogSystem extends Log {
 
     public LogSystem(String creator) {

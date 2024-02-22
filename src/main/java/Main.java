@@ -1,6 +1,3 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class Main {
     public static void main(String[] args) {
         LoggerSystem loggerSystem = new LoggerSystem();
@@ -9,7 +6,7 @@ public class Main {
         loggerSystem.addUser("Admin", AccessType.ADMIN);
         loggerSystem.addUser("Owner", AccessType.OWNER);
 
-        for(int i = 0; i < loggerSystem.getUsers().size(); i++) {
+        for (int i = 0; i < loggerSystem.getUsers().size(); i++) {
             loggerSystem.createLog(loggerSystem.getUsers().get(i).getUsername());
             loggerSystem.getLogs().get(i).setLogText("Log " + i);
             loggerSystem.getLogs().get(i).showLog();
@@ -27,14 +24,42 @@ public class Main {
         System.out.println("Liczba logów usuniętych po usunięciu");
         System.out.println(loggerSystem.getDeletedLogs().size());
 
-        //do zrobienia zarządzanie logami
+        System.out.println();
+
+        checkAccess(0, 0, loggerSystem);
+        checkAccess(0, 1, loggerSystem);
+        checkAccess(0, 2, loggerSystem);
+        System.out.println("-----------------------------------");
+        checkAccess(1, 0, loggerSystem);
+        checkAccess(1, 1, loggerSystem);
+        checkAccess(1, 2, loggerSystem);
+        System.out.println("-----------------------------------");
+        checkAccess(2, 0, loggerSystem);
+        checkAccess(2, 1, loggerSystem);
+        checkAccess(2, 2, loggerSystem);
+
 
     }
 
-    public static String getActualTime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return dtf.format(now);
-    }
+    public static boolean checkAccess(int CheckingUserId, int userToCheckId, LoggerSystem loggerSystem) {
+        AccessType checkingUserAccess = loggerSystem.getUsers().get(CheckingUserId).getAccess();
+        AccessType userToCheckAccess = loggerSystem.getUsers().get(userToCheckId).getAccess();
 
+        if (checkingUserAccess.equals(userToCheckAccess)) {
+            System.out.println("Brak uprawnień");
+            return false;
+        } else if (checkingUserAccess.equals(AccessType.BASIC)) {
+            System.out.println("Brak uprawnień");
+            return false;
+        } else if (checkingUserAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.BASIC)) {
+            System.out.println("Odpowiednie uprawnienia");
+            return true;
+        } else if (checkingUserAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.OWNER)) {
+            System.out.println("Brak uprawnień");
+            return true;
+        }else {
+            System.out.println("Odpowiednie uprawnienia");
+            return true;
+        }
+    }
 }

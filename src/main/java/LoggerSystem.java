@@ -17,10 +17,9 @@ public class LoggerSystem  {
         allLogs.add(log);
     }
 
-    public boolean removeLog(ArrayList<LogSystem> logs, int index) {
+    public void removeLog(ArrayList<LogSystem> logs, int index) {
         deletedLogs.add(logs.get(index));
         allLogs.remove(logs.get(index));
-        return true;
     }
 
     public ArrayList<LogSystem> getLogs() {
