@@ -25,41 +25,19 @@ public class Main {
         System.out.println(loggerSystem.getDeletedLogs().size());
 
         System.out.println();
+        AccessManage AccessManage =  new AccessManage();
 
-        checkAccess(0, 0, loggerSystem);
-        checkAccess(0, 1, loggerSystem);
-        checkAccess(0, 2, loggerSystem);
+        AccessManage.checkAccess(0, 0, loggerSystem);
+        AccessManage.checkAccess(0, 1, loggerSystem);
+        AccessManage.checkAccess(0, 2, loggerSystem);
         System.out.println("-----------------------------------");
-        checkAccess(1, 0, loggerSystem);
-        checkAccess(1, 1, loggerSystem);
-        checkAccess(1, 2, loggerSystem);
+        AccessManage.checkAccess(1, 0, loggerSystem);
+        AccessManage.checkAccess(1, 1, loggerSystem);
+        AccessManage.checkAccess(1, 2, loggerSystem);
         System.out.println("-----------------------------------");
-        checkAccess(2, 0, loggerSystem);
-        checkAccess(2, 1, loggerSystem);
-        checkAccess(2, 2, loggerSystem);
+        AccessManage.checkAccess(2, 0, loggerSystem);
+        AccessManage.checkAccess(2, 1, loggerSystem);
+        AccessManage.checkAccess(2, 2, loggerSystem);
 
-
-    }
-
-    public static boolean checkAccess(int checkingUserId, int userToCheckId, LoggerSystem loggerSystem) {
-        AccessType checkingUserAccess = loggerSystem.getUsers().get(checkingUserId).getAccess();
-        AccessType userToCheckAccess = loggerSystem.getUsers().get(userToCheckId).getAccess();
-
-        if (checkingUserAccess.equals(userToCheckAccess)) {
-            System.out.println("Brak uprawnień");
-            return false;
-        } else if (checkingUserAccess.equals(AccessType.BASIC)) {
-            System.out.println("Brak uprawnień");
-            return false;
-        } else if (checkingUserAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.BASIC)) {
-            System.out.println("Odpowiednie uprawnienia");
-            return true;
-        } else if (checkingUserAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.OWNER)) {
-            System.out.println("Brak uprawnień");
-            return true;
-        }else {
-            System.out.println("Odpowiednie uprawnienia");
-            return true;
-        }
     }
 }
