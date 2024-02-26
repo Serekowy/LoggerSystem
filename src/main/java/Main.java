@@ -41,8 +41,8 @@ public class Main {
 
     }
 
-    public static boolean checkAccess(int CheckingUserId, int userToCheckId, LoggerSystem loggerSystem) {
-        AccessType checkingUserAccess = loggerSystem.getUsers().get(CheckingUserId).getAccess();
+    public static boolean checkAccess(int checkingUserId, int userToCheckId, LoggerSystem loggerSystem) {
+        AccessType checkingUserAccess = loggerSystem.getUsers().get(checkingUserId).getAccess();
         AccessType userToCheckAccess = loggerSystem.getUsers().get(userToCheckId).getAccess();
 
         if (checkingUserAccess.equals(userToCheckAccess)) {
