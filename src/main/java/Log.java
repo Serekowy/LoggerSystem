@@ -1,8 +1,8 @@
 public class Log {
-    private String timestamp;
-    private String creator;
-    private String logText;
-    private String logType;
+    private final String timestamp;
+    private final String creator;
+    private final String logText;
+    private final String logType;
 
     public Log(String creator) {
         this.timestamp = "now";
@@ -25,18 +25,5 @@ public class Log {
 
     public String getLogType() {
         return logType;
-    }
-
-    public void setTimestamp(String newTimestamp) {
-        this.timestamp = newTimestamp;
-    }
-    public void setCreator(String  newCreator) {
-        this.creator = newCreator;
-    }
-    public void setLogText(String newLogText) {
-        this.logText =  newLogText;
-    }
-    public void setLogType(String newLogType) {
-        this.logType = newLogType;
     }
 }

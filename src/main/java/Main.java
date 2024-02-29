@@ -27,6 +27,8 @@ public class Main {
         System.out.println();
         AccessManage AccessManage =  new AccessManage();
 
+        AccessManage.checkAccess(0, 0, new LoggerSystem());
+
         AccessManage.checkAccess(0, 0, loggerSystem);
         AccessManage.checkAccess(0, 1, loggerSystem);
         AccessManage.checkAccess(0, 2, loggerSystem);
