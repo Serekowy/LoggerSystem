@@ -1,14 +1,20 @@
 public class Log {
-    private String timestamp;
-    private String creator;
-    private String logText;
-    private String logType;
+    private final String timestamp;
+    private final String creator;
+    private final String logText;
+    private final String logType;
 
-    public Log(String creator) {
-        this.timestamp = "now";
+    Log() {
+        timestamp = null;
+        creator = null;
+        logText = null;
+        logType = null;
+    }
+    public Log(String creator, String timestamp, String logText, String logType) {
+        this.timestamp = timestamp;
         this.creator = creator;
-        this.logText = "przykładowy tekst";
-        this.logType = "text";
+        this.logText = logText;
+        this.logType = logType;
     }
 
     public String getTimestamp() {
@@ -27,16 +33,4 @@ public class Log {
         return logType;
     }
 
-    public void setTimestamp(String newTimestamp) {
-        this.timestamp = newTimestamp;
-    }
-    public void setCreator(String  newCreator) {
-        this.creator = newCreator;
-    }
-    public void setLogText(String newLogText) {
-        this.logText =  newLogText;
-    }
-    public void setLogType(String newLogType) {
-        this.logType = newLogType;
-    }
 }

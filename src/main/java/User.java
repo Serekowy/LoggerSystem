@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class User
 {
-    private String username;
-    private AccessType access;
+    private final String username;
+    private final AccessType access;
 
     public User(String username, AccessType access) {
         this.username = username;
@@ -18,11 +18,5 @@ public class User
         return username;
     }
 
-    public void setAccess(AccessType newAccess) {
-        this.access = newAccess;
-    }
-    public void setUsername(String newUsername) {
-        this.username = newUsername;
-    }
 }
 
