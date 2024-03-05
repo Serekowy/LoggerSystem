@@ -7,15 +7,18 @@ public class Main {
         LoggerSystem loggerSystem = new LoggerSystem();
 
         loggerSystem.addUser(new User("Basic", AccessType.BASIC));
+        loggerSystem.addUser(new User("Basic1", AccessType.BASIC));
         loggerSystem.addUser(new User("Admin",AccessType.ADMIN));
+        loggerSystem.addUser(new User("Admin1",AccessType.ADMIN));
         loggerSystem.addUser(new User("Owner", AccessType.OWNER));
+        loggerSystem.addUser(new User("Owner1", AccessType.OWNER));
 
         loggerSystem.addLog(new LogSystem("Basic", getActualTime(), "Pierwszy log", "text"));
         loggerSystem.addLog(new LogSystem("Basic", getActualTime(), "Drugi log", "text"));
         loggerSystem.addLog(new LogSystem("Basic", getActualTime(), "Trzeci log", "text"));
         loggerSystem.addLog(new LogSystem("Basic", getActualTime(), "Czwarty log", "text"));
 
-        ArrayList<LogSystem> logs = loggerSystem.getUserLogs("Admi","Basic");
+        ArrayList<LogSystem> logs = loggerSystem.getUserLogs("Basic1","Basic");
 
         if(!logs.isEmpty()) {
             for(LogSystem log : logs) {
