@@ -18,10 +18,16 @@ public class Main {
         loggerSystem.addLog(new LogSystem("Basic", getActualTime(), "Trzeci log", "text"));
         loggerSystem.addLog(new LogSystem("Basic", getActualTime(), "Czwarty log", "text"));
 
-        ArrayList<LogSystem> logs = loggerSystem.getUserLogs("Basic1","Basic");
+        loggerSystem.removeLog(0, "Admin");
+
+        ArrayList<LogSystem> logs = loggerSystem.getLogsForUser("Basic");
+
+        int i = 1;
 
         if(!logs.isEmpty()) {
             for(LogSystem log : logs) {
+                System.out.println(i + ". ");
+                i++;
                 log.showLog();
             }
         }

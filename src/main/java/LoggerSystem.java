@@ -4,9 +4,11 @@ import java.util.Set;
 
 public class LoggerSystem {
 
-    private final ArrayList<LogSystem> allLogs;
+    private ArrayList<LogSystem> allLogs;
     private final ArrayList<LogSystem> deletedLogs;
     private final Set<User> users;
+
+    private final AccessManage accessManage = new AccessManage();
 
     public LoggerSystem() {
         this.allLogs = new ArrayList<>();
@@ -18,32 +20,29 @@ public class LoggerSystem {
         allLogs.add(log);
     }
 
-    public void removeLog(LogSystem log, User user) {
-        //sprawdzenie czy uzytkownik moze usunac tego loga
-        String logOwner = log.getCreator();
-        String username = user.getUsername();
+    public void removeLog(int logNumber, String username) {
+        ArrayList<LogSystem> userLogs = getLogsForUser(username);
+        LogSystem log;
 
-        if (checkLogExist(log)) {
-            System.out.println("Log nie istnieje");
-        } else if(!logOwner.equals(username)) {
-            deletedLogs.add(log);
-            allLogs.remove(log);
-            System.out.println("Log usunięty pomyślnie.");
-        } else {
-            AccessManage accessManage = new AccessManage();
+        if (logNumber < userLogs.size()) {
+            log = userLogs.get(logNumber);
+            String logOwner = log.getCreator();
 
-            //tu dac sprawdzenie jakby czy ten uztykownik moze loga usunac
+            if (logOwner.equals(username) && checkUserExist(username)) {
+                deletedLogs.add(log);
+                allLogs.remove(log);
+                System.out.println("Log usunięty pomyślnie.");
+            }
         }
 
 
-
-
-
-
-        //zrobic sprawdzenie czy istnieje log
-
-        //usunac loga
-
+//        else if (accessManage.checkAccess(checkUserAccess(username), checkUserAccess(logOwner))) {
+//            deletedLogs.add(log);
+//            allLogs.remove(log);
+//            System.out.println("Log usunięty pomyślnie.");
+//        } else {
+//            System.out.println("Brak uprawnień do usunięcia loga innego użytkownika.");
+//        }
     }
 
     public ArrayList<LogSystem> getLogsForUser(String username) { //username jako nazwa zalogowanego użytkownika
@@ -52,6 +51,7 @@ public class LoggerSystem {
 
         if (!checkUserExist(username)) {
             System.out.println("Użytkownik " + username + " nie istnieje!");
+            return new ArrayList<>();
         }
 
         for (LogSystem log : allLogs) {
@@ -68,27 +68,12 @@ public class LoggerSystem {
         if (checkingUser.equals(userToCheck)) {
             System.out.println("Za pomocą tej metody nie można sprawdzić swoich logów, użyj metody getLogsForUser()");
             return new ArrayList<>();
-        }
-
-        AccessType checkingUserAccess = AccessType.BASIC;
-        AccessType userToCheckAccess = AccessType.BASIC;
-
-        for (User user : users) { //przydalo by sie w funkcje jakos wrzucic, zeby uzyc tego w removeOwnLog
-            if (user.getUsername().equals(checkingUser)) {
-                checkingUserAccess = user.getAccess();
-            } else if (user.getUsername().equals(userToCheck)) {
-                userToCheckAccess = user.getAccess();
-            }
-        }
-
-        if (!checkUserExist(checkingUser) || !checkUserExist(userToCheck)) {
+        } else if (!checkUserExist(checkingUser) || !checkUserExist(userToCheck)) {
             System.out.println("Użytkownik " + checkingUser + " lub " + userToCheck + " nie istnieje!");
             return new ArrayList<>();
         }
 
-        AccessManage accessManage = new AccessManage();
-
-        if (accessManage.checkAccess(checkingUserAccess, userToCheckAccess)) {
+        if (accessManage.checkAccess(checkUserAccess(checkingUser), checkUserAccess(userToCheck))) {
             return getLogsForUser(userToCheck);
         }
 
@@ -108,13 +93,6 @@ public class LoggerSystem {
         return true;
     }
 
-    private boolean checkLogExist(Log log) {
-        if (allLogs.contains(log)) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean checkUserExist(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
@@ -122,5 +100,14 @@ public class LoggerSystem {
             }
         }
         return false;
+    }
+
+    private AccessType checkUserAccess(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user.getAccess();
+            }
+        }
+        return AccessType.BASIC;
     }
 }
