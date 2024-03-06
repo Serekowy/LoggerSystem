@@ -4,10 +4,9 @@ import java.util.Set;
 
 public class LoggerSystem {
 
-    private ArrayList<LogSystem> allLogs;
+    private final ArrayList<LogSystem> allLogs;
     private final ArrayList<LogSystem> deletedLogs;
     private final Set<User> users;
-
     private final AccessManage accessManage = new AccessManage();
 
     public LoggerSystem() {
@@ -20,11 +19,11 @@ public class LoggerSystem {
         allLogs.add(log);
     }
 
-    public void removeLog(int logNumber, String username) {
-        ArrayList<LogSystem> userLogs = getLogsForUser(username);
+    public void removeOwnLog(String username, int logNumber) {
+        ArrayList<LogSystem> userLogs = getUserLogs(username);
         LogSystem log;
 
-        if (logNumber < userLogs.size()) {
+        if (logNumber < userLogs.size() && logNumber >= 0) {
             log = userLogs.get(logNumber);
             String logOwner = log.getCreator();
 
@@ -34,18 +33,53 @@ public class LoggerSystem {
                 System.out.println("Log usunięty pomyślnie.");
             }
         }
-
-
-//        else if (accessManage.checkAccess(checkUserAccess(username), checkUserAccess(logOwner))) {
-//            deletedLogs.add(log);
-//            allLogs.remove(log);
-//            System.out.println("Log usunięty pomyślnie.");
-//        } else {
-//            System.out.println("Brak uprawnień do usunięcia loga innego użytkownika.");
-//        }
     }
 
-    public ArrayList<LogSystem> getLogsForUser(String username) { //username jako nazwa zalogowanego użytkownika
+    public void removeUserLog(String userDeletingLog, String userToDeleteLog, int logNumber) {
+        ArrayList<LogSystem> userLogs = getUserLogs(userToDeleteLog);
+        LogSystem log;
+
+        if (logNumber < userLogs.size() && logNumber >= 0) {
+            log = userLogs.get(logNumber);
+            String logOwner = log.getCreator();
+
+            if (accessManage.checkAccess(checkUserAccess(userDeletingLog), checkUserAccess(userToDeleteLog))) {
+                deletedLogs.add(log);
+                allLogs.remove(log);
+                System.out.println("Log usunięty pomyślnie.");
+            } else {
+                System.out.println("Brak uprawnień do usunięcia loga innego użytkownika.");
+            }
+        }
+    }
+
+    //debug
+//    public void showLogs() {
+//        for (LogSystem log : allLogs) {
+//            log.showLog();
+//        }
+//    }
+//
+//    public void showUserLogs(String username) {
+//        ArrayList<LogSystem> userLogs = getUserLogs(username);
+//        for (LogSystem log : userLogs) {
+//            log.showLog();
+//        }
+//    }
+//
+//    public void showDeletedLogs() {
+//        for (LogSystem log : deletedLogs) {
+//            log.showLog();
+//        }
+//    }
+//
+//    public void showUsers() {
+//        for (User user : users) {
+//            System.out.println(user.getUsername());
+//        }
+//    }
+    //end
+    public ArrayList<LogSystem> getUserLogs(String username) { //username jako nazwa zalogowanego użytkownika
 
         ArrayList<LogSystem> userLogs = new ArrayList<>();
 
@@ -66,7 +100,7 @@ public class LoggerSystem {
     public ArrayList<LogSystem> getUserLogs(String checkingUser, String userToCheck) {
 
         if (checkingUser.equals(userToCheck)) {
-            System.out.println("Za pomocą tej metody nie można sprawdzić swoich logów, użyj metody getLogsForUser()");
+            System.out.println("Za pomocą tej metody nie można sprawdzić swoich logów.");
             return new ArrayList<>();
         } else if (!checkUserExist(checkingUser) || !checkUserExist(userToCheck)) {
             System.out.println("Użytkownik " + checkingUser + " lub " + userToCheck + " nie istnieje!");
@@ -74,7 +108,7 @@ public class LoggerSystem {
         }
 
         if (accessManage.checkAccess(checkUserAccess(checkingUser), checkUserAccess(userToCheck))) {
-            return getLogsForUser(userToCheck);
+            return getUserLogs(userToCheck);
         }
 
         return new ArrayList<>();
