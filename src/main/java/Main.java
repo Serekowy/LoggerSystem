@@ -27,6 +27,7 @@ public class Main {
         showLogs(logs);
         System.out.println("Logi po usunięciu swojego loga przez Basic");
         loggerSystem.removeOwnLog("Basic", 0);
+        logs = loggerSystem.getUserLogs("Basic");
         showLogs(logs);
         System.out.println("Usunięty log i wyświetlone logi użytkownika Basic przez Admin");
         loggerSystem.removeUserLog("Admin", "Basic", 0);
