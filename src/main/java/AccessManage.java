@@ -1,5 +1,5 @@
 public class AccessManage {
-    //najpierw sprawdzamy uzytkownika, pozniej uprawnienia, i sprawdzamy logi
+
     public boolean checkAccess(AccessType checkingUserAccess, AccessType userToCheckAccess) {
         if (checkingUserAccess.equals(userToCheckAccess)) {
             System.out.println("Brak uprawnień");
@@ -17,5 +17,9 @@ public class AccessManage {
             System.out.println("Odpowiednie uprawnienia");
             return true;
         }
+    }
+
+    public boolean checkLogAccess(AccessType access) {
+        return access.equals(AccessType.BASIC) || access.equals(AccessType.ADMIN) || access.equals(AccessType.OWNER);
     }
 }

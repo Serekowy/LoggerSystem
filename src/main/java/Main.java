@@ -19,25 +19,21 @@ public class Main {
         loggerSystem.addLog(new LogSystem("Basic", getActualTime(), "Czwarty log", "text"));
         loggerSystem.addLog(new LogSystem("Admin", getActualTime(), "Pierwszy log admin", "text"));
 
-        loggerSystem.removeOwnLog("Owner", 0);
-        loggerSystem.removeUserLog("Admin", "Owner", 0);
+        loggerSystem.removeLog("Owner","", 4);
+        loggerSystem.removeLog("Admin", "Owner", 0);
 
-        ArrayList<LogSystem> logs = loggerSystem.getUserLogs("Basic");
+        ArrayList<LogSystem> logs = loggerSystem.getUserLogs("Basic", "");
         System.out.println("Basic wyświetla wszystkie swoje logi");
         showLogs(logs);
         System.out.println("Logi po usunięciu swojego loga przez Basic");
-        loggerSystem.removeOwnLog("Basic", 0);
-        logs = loggerSystem.getUserLogs("Basic");
+        loggerSystem.removeLog("Basic", "", 0);
+        logs = loggerSystem.getUserLogs("Basic", "");
         showLogs(logs);
         System.out.println("Usunięty log i wyświetlone logi użytkownika Basic przez Admin");
-        loggerSystem.removeUserLog("Admin", "Basic", 0);
+        loggerSystem.removeLog("Admin", "Basic", 0);
         logs = loggerSystem.getUserLogs("Admin", "Basic");
         showLogs(logs);
 
-//        loggerSystem.showUserLogs("Basi");
-//        loggerSystem.showUsers();
-//        loggerSystem.showUsers();
-//        loggerSystem.showDeletedLogs();
     }
 
     public static void showLogs(ArrayList<LogSystem> logs) {

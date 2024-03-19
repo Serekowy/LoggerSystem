@@ -19,96 +19,46 @@ public class LoggerSystem {
         allLogs.add(log);
     }
 
-    public void removeOwnLog(String username, int logNumber) {
-        ArrayList<LogSystem> userLogs = getUserLogs(username);
+    public void removeLog(String userDeletingLog, String userToDeleteLog, int logNumber) {
+        ArrayList<LogSystem> userLogs;
         LogSystem log;
 
-        if (logNumber < userLogs.size() && logNumber >= 0) {
-            log = userLogs.get(logNumber);
-            String logOwner = log.getCreator();
+        if (userToDeleteLog.isEmpty() && checkUserExist(userDeletingLog)) {
+            userLogs = getUserLogs(userDeletingLog, "");
+            if (logNumber < userLogs.size() && logNumber >= 0) {
+                log = userLogs.get(logNumber);
+                String logOwner = log.getCreator();
+                AccessType access = checkUserAccess(userDeletingLog);
 
-            if (logOwner.equals(username) && checkUserExist(username)) {
-                deletedLogs.add(log);
-                allLogs.remove(log);
-                System.out.println("Log usunięty pomyślnie.");
+                if (logOwner.equals(userDeletingLog) && accessManage.checkLogAccess(access)) {
+                    finalRemoveLog(log);
+                }
+            }
+        } else {
+            userLogs = getUserLogs(userDeletingLog, userToDeleteLog);
+            if (logNumber < userLogs.size() && logNumber >= 0) {
+                log = userLogs.get(logNumber);
+                finalRemoveLog(log);
             }
         }
-    }
-
-    public void removeUserLog(String userDeletingLog, String userToDeleteLog, int logNumber) {
-        ArrayList<LogSystem> userLogs = getUserLogs(userToDeleteLog);
-        LogSystem log;
-
-        if (logNumber < userLogs.size() && logNumber >= 0) {
-            log = userLogs.get(logNumber);
-            String logOwner = log.getCreator();
-
-            if (accessManage.checkAccess(checkUserAccess(userDeletingLog), checkUserAccess(userToDeleteLog))) {
-                deletedLogs.add(log);
-                allLogs.remove(log);
-                System.out.println("Log usunięty pomyślnie.");
-            } else {
-                System.out.println("Brak uprawnień do usunięcia loga innego użytkownika.");
-            }
-        }
-    }
-
-    //debug
-//    public void showLogs() {
-//        for (LogSystem log : allLogs) {
-//            log.showLog();
-//        }
-//    }
-//
-//    public void showUserLogs(String username) {
-//        ArrayList<LogSystem> userLogs = getUserLogs(username);
-//        for (LogSystem log : userLogs) {
-//            log.showLog();
-//        }
-//    }
-//
-//    public void showDeletedLogs() {
-//        for (LogSystem log : deletedLogs) {
-//            log.showLog();
-//        }
-//    }
-//
-//    public void showUsers() {
-//        for (User user : users) {
-//            System.out.println(user.getUsername());
-//        }
-//    }
-    //end
-    public ArrayList<LogSystem> getUserLogs(String username) { //username jako nazwa zalogowanego użytkownika
-
-        ArrayList<LogSystem> userLogs = new ArrayList<>();
-
-        if (!checkUserExist(username)) {
-            System.out.println("Użytkownik " + username + " nie istnieje!");
-            return new ArrayList<>();
-        }
-
-        for (LogSystem log : allLogs) {
-            if (log.getCreator().equals(username)) {
-                userLogs.add(log);
-            }
-        }
-
-        return userLogs;
     }
 
     public ArrayList<LogSystem> getUserLogs(String checkingUser, String userToCheck) {
 
-        if (checkingUser.equals(userToCheck)) {
-            System.out.println("Za pomocą tej metody nie można sprawdzić swoich logów.");
-            return new ArrayList<>();
-        } else if (!checkUserExist(checkingUser) || !checkUserExist(userToCheck)) {
-            System.out.println("Użytkownik " + checkingUser + " lub " + userToCheck + " nie istnieje!");
-            return new ArrayList<>();
+        if (checkUserExist(checkingUser) && userToCheck.isEmpty()) {
+            if (accessManage.checkLogAccess(checkUserAccess(checkingUser))) {
+                return getLogs(checkingUser);
+            }
         }
 
-        if (accessManage.checkAccess(checkUserAccess(checkingUser), checkUserAccess(userToCheck))) {
-            return getUserLogs(userToCheck);
+        if (!checkingUser.isEmpty() && !userToCheck.isEmpty()) {
+            if (checkUserExist(checkingUser) && checkUserExist(userToCheck)) {
+                if (accessManage.checkAccess(checkUserAccess(checkingUser), checkUserAccess(userToCheck))) {
+                    return getLogs(userToCheck);
+                }
+            } else {
+                System.out.println("Użytkownik " + checkingUser + " lub " + userToCheck + " nie istnieje!");
+            }
         }
 
         return new ArrayList<>();
@@ -128,12 +78,7 @@ public class LoggerSystem {
     }
 
     private boolean checkUserExist(String username) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
+        return users.stream().anyMatch(user -> user.getUsername().equals(username));
     }
 
     private AccessType checkUserAccess(String username) {
@@ -143,5 +88,21 @@ public class LoggerSystem {
             }
         }
         return AccessType.BASIC;
+    }
+
+    private ArrayList<LogSystem> getLogs(String username) {
+        ArrayList<LogSystem> userLogs = new ArrayList<>();
+        for (LogSystem log : allLogs) {
+            if (log.getCreator().equals(username)) {
+                userLogs.add(log);
+            }
+        }
+        return userLogs;
+    }
+
+    private void finalRemoveLog(LogSystem log) {
+        deletedLogs.add(log);
+        allLogs.remove(log);
+        System.out.println("Log usunięty pomyślnie.");
     }
 }
