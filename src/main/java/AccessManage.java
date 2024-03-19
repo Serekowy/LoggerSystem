@@ -1,18 +1,18 @@
 public class AccessManage {
 
-    public boolean checkAccess(AccessType checkingUserAccess, AccessType userToCheckAccess) {
-        if (checkingUserAccess.equals(userToCheckAccess)) {
+    public boolean checkAccess(AccessType userCheckingAccess, AccessType userToCheckAccess) {
+        if (userCheckingAccess.equals(userToCheckAccess)) {
             System.out.println("Brak uprawnień");
             return false;
-        } else if (checkingUserAccess.equals(AccessType.BASIC)) {
+        } else if (userCheckingAccess.equals(AccessType.BASIC)) {
             System.out.println("Brak uprawnień");
             return false;
-        } else if (checkingUserAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.BASIC)) {
+        } else if (userCheckingAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.BASIC)) {
             System.out.println("Odpowiednie uprawnienia");
             return true;
-        } else if (checkingUserAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.OWNER)) {
+        } else if (userCheckingAccess.equals(AccessType.ADMIN) && userToCheckAccess.equals(AccessType.OWNER)) {
             System.out.println("Brak uprawnień");
-            return true;
+            return false;
         } else {
             System.out.println("Odpowiednie uprawnienia");
             return true;
