@@ -24,12 +24,50 @@ class LoggerSystemTest {
 
     }
     @Test
+    void getUserLogsShouldNotShowWhenUsersNotExist() {
+        LoggerSystem loggerSystem = new LoggerSystem();
+
+        loggerSystem.addLog(new LogSystem("User", "now", "jakis tekst log", "text"));
+
+        assertTrue(loggerSystem.getUserLogs("User", "Userr").isEmpty());
+
+    }
+    @Test
     void getUserLogsShouldShowWhenUserExist() {
         LoggerSystem loggerSystem = new LoggerSystem();
         loggerSystem.addUser(new User("User", AccessType.BASIC));
         loggerSystem.addLog(new LogSystem("User", "now", "jakis tekst log", "text"));
 
         assertFalse(loggerSystem.getUserLogs("User", "").isEmpty());
+
+    }
+    @Test
+    void getUserLogsShouldNotShowWhenAccessIsIncorrect() {
+        LoggerSystem loggerSystem = new LoggerSystem();
+        loggerSystem.addUser(new User("User", AccessType.BASIC));
+        loggerSystem.addUser(new User("Admin", AccessType.ADMIN));
+        loggerSystem.addLog(new LogSystem("User", "now", "jakis tekst log", "text"));
+
+        assertTrue(loggerSystem.getUserLogs("User", "Admin").isEmpty());
+
+    }
+    @Test
+    void getUserLogsShouldShowLogsOtherUserWhenTwoArgsGiven() {
+        LoggerSystem loggerSystem = new LoggerSystem();
+        loggerSystem.addUser(new User("User", AccessType.BASIC));
+        loggerSystem.addUser(new User("Admin", AccessType.ADMIN));
+        loggerSystem.addLog(new LogSystem("User", "now", "jakis tekst log", "text"));
+
+        assertFalse(loggerSystem.getUserLogs("Admin", "User").isEmpty());
+
+    }
+    @Test
+    void getUserLogsShouldDoNothingWhenNoUserToCheckAndCheckingUser() {
+        LoggerSystem loggerSystem = new LoggerSystem();
+        loggerSystem.addUser(new User("User", AccessType.BASIC));
+        loggerSystem.addLog(new LogSystem("User", "now", "jakis tekst log", "text"));
+
+        assertTrue(loggerSystem.getUserLogs("", "").isEmpty());
 
     }
     @Test
